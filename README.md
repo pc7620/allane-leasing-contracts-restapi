@@ -6,8 +6,10 @@ A leasing application to be able to administrate leasing contracts.
 Before running the application, the following prerequisites must be met:
 Java 11 or higher must be installed.
 Docker must be installed.
-A MySQL or MariaDB database must be available. This can be done by running a Docker container with the database. For example, the following command can be used to start a MariaDB container:
-docker run -d -p 3306:3306 --name mariadb -e MYSQL_ROOT_PASSWORD=<password> mysql
+A MySQL or MariaDB database must be available. This can be done by running a Docker container with the database. For example, the following command can be used to start a Mysql container:
+
+docker network create allane-mysql-net
+docker run --name mysqldb --network allane-mysql-net -e MYSQL_ROOT_PASSWORD=1234 -e MYSQL_DATABASE=contract -e MYSQL_USER=sa -e MYSQL_PASSWORD=1234 -d mysql
 
 
 
@@ -18,8 +20,10 @@ To start the application, follow these steps:
 Clone the repository to your local machine.
 Navigate to the root directory of the project.
 Build the project
-Run the project
-docker-compose up --build 
+Create the jar and then run the following commands in terminal where the docker file is situtaed
+
+docker build -t allanecontract .
+docker run --name allane-container --network allane-mysql-net -p 8080:8080 -d allanecontract
 
 The application will be accessible at http://localhost:8080.
 
